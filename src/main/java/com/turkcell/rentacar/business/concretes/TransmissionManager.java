@@ -14,7 +14,7 @@ public class TransmissionManager implements TransmissionService {
     private TransmissionsRepository transmissionsRepository;
     @Override
     public Transmission getById(int id) {
-        return  transmissionsRepository.findById(id).orElse(null);
+        return transmissionsRepository.findById(id).orElse(null);
     }
 
     @Transactional

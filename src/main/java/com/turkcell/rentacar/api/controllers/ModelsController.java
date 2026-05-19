@@ -20,18 +20,18 @@ public class ModelsController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/models/{id}")
-    public Model update(@PathVariable int id,@RequestBody Model model){
-        return modelService.update(id, model);
-    }
-
-    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/models/{id}")
     public Model getById(@PathVariable int id){
         return modelService.getById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/models/{id}")
+    public Model update(@PathVariable int id,@RequestBody Model model){
+        return modelService.update(id, model);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/models/{id}")
     public void delete(@PathVariable int id){
         modelService.delete(id);

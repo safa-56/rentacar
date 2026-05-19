@@ -13,7 +13,13 @@ public class TransmissionsController {
 
     private TransmissionService transmissionService;
 
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/transmissions")
+    public Transmission add(@RequestBody Transmission transmission){
+        return transmissionService.add(transmission);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/transmissions/{id}")
     public Transmission getById(@PathVariable int id){
         return transmissionService.getById(id);
@@ -25,13 +31,7 @@ public class TransmissionsController {
         return transmissionService.update(id, transmission);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/transmissions")
-    public Transmission add(@RequestBody Transmission transmission){
-        return transmissionService.add(transmission);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/transmissions/{id}")
     public void delete(@PathVariable int id){
         transmissionService.delete(id);

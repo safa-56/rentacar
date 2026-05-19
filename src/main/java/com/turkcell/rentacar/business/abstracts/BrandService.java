@@ -1,10 +1,14 @@
 package com.turkcell.rentacar.business.abstracts;
 
-import com.turkcell.rentacar.entities.concretes.Brand;
+import com.turkcell.rentacar.business.dtos.requests.brand.CreateBrandRequest;
+import com.turkcell.rentacar.business.dtos.requests.brand.UpdateBrandRequest;
+import com.turkcell.rentacar.business.dtos.responses.brand.CreatedBrandResponse;
+import com.turkcell.rentacar.business.dtos.responses.brand.GetBrandResponse;
+import com.turkcell.rentacar.business.dtos.responses.brand.UpdatedBrandResponse;
 
 public interface BrandService {
-    Brand add(Brand brand);
-    Brand getById(int id);
+    CreatedBrandResponse add(CreateBrandRequest createBrandRequest);
+    GetBrandResponse getById(int id);
     void delete(int id);
-    Brand update(int id,Brand brand);
+    UpdatedBrandResponse update(int id, UpdateBrandRequest updateBrandRequest);
 }
