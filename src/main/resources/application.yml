@@ -1,0 +1,16 @@
+## spring.application.name=rentacar
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rentacar
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # var olan tabloların otomaik olarak güncellenmesini sağlar
+    show-sql: true
+    properties:
+      hibernate:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
