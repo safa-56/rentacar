@@ -1,7 +1,13 @@
 package com.turkcell.rentacar.api.controllers;
 
 import com.turkcell.rentacar.business.abstracts.TransmissionService;
+import com.turkcell.rentacar.business.dtos.requests.transmission.CreateTransmissionRequest;
+import com.turkcell.rentacar.business.dtos.requests.transmission.UpdateTransmissionRequest;
+import com.turkcell.rentacar.business.dtos.responses.transmission.CreatedTransmissionResponse;
+import com.turkcell.rentacar.business.dtos.responses.transmission.GetTransmissionResponse;
+import com.turkcell.rentacar.business.dtos.responses.transmission.UpdatedTransmissionResponse;
 import com.turkcell.rentacar.entities.concretes.Transmission;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +21,20 @@ public class TransmissionsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/transmissions")
-    public Transmission add(@RequestBody Transmission transmission){
-        return transmissionService.add(transmission);
+    public CreatedTransmissionResponse add(@Valid @RequestBody CreateTransmissionRequest createTransmissionRequest){
+        return transmissionService.add(createTransmissionRequest);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/transmissions/{id}")
-    public Transmission getById(@PathVariable int id){
+    public GetTransmissionResponse getById(@PathVariable int id){
         return transmissionService.getById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/transmissions/{id}")
-    public Transmission update(@PathVariable int id,@RequestBody Transmission transmission){
-        return transmissionService.update(id, transmission);
+    public UpdatedTransmissionResponse update(@PathVariable int id, @Valid @RequestBody UpdateTransmissionRequest updateTransmissionRequest){
+        return transmissionService.update(id, updateTransmissionRequest);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

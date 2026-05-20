@@ -2,7 +2,6 @@ package com.turkcell.rentacar.business.abstracts;
 
 import com.turkcell.rentacar.business.dtos.requests.fuelType.CreateFuelTypeRequest;
 import com.turkcell.rentacar.business.dtos.requests.fuelType.UpdateFuelTypeRequest;
-import com.turkcell.rentacar.business.dtos.responses.brand.GetBrandResponse;
 import com.turkcell.rentacar.business.dtos.responses.fuelType.CreatedFuelTypeResponse;
 import com.turkcell.rentacar.business.dtos.responses.fuelType.GetFuelTypeResponse;
 import com.turkcell.rentacar.business.dtos.responses.fuelType.UpdatedFuelTypeResponse;
@@ -13,4 +12,5 @@ public interface FuelTypeService {
     GetFuelTypeResponse getById(int id);
     UpdatedFuelTypeResponse update(int id, UpdateFuelTypeRequest updateFuelTypeRequest);
     void delete(int id);
+    FuelType getFuelTypeById(int id);
 }

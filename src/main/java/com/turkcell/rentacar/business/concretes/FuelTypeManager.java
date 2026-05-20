@@ -73,4 +73,9 @@ public class FuelTypeManager implements FuelTypeService {
     public void delete(int id) {
         fuelTypeRepository.deleteById(id);
     }
+
+    @Override
+    public FuelType getFuelTypeById(int id) {
+        return fuelTypeRepository.findById(id).orElse(null);
+    }
 }

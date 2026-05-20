@@ -68,6 +68,11 @@ public class BrandManager implements BrandService {
         return updatedBrandResponse;
     }
 
+    @Override
+    public Brand getBrandById(int id) {
+        return brandRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     @Override
     public void delete(int id) {
