@@ -1,5 +1,6 @@
 package com.turkcell.rentacar.business.dtos.requests.model;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,12 +16,12 @@ public class CreateModelRequest {
     @Size(min = 1, max = 100)
     private String name;
 
-    @NotEmpty
+    @Positive
     private int transmissionId;
 
-    @NotEmpty
+    @Positive
     private int fuelTypeId;
 
-    @NotEmpty
+    @Positive
     private int brandId;
 }

@@ -6,6 +6,8 @@ import com.turkcell.rentacar.business.dtos.requests.fuelType.UpdateFuelTypeReque
 import com.turkcell.rentacar.business.dtos.responses.fuelType.CreatedFuelTypeResponse;
 import com.turkcell.rentacar.business.dtos.responses.fuelType.GetFuelTypeResponse;
 import com.turkcell.rentacar.business.dtos.responses.fuelType.UpdatedFuelTypeResponse;
+import com.turkcell.rentacar.business.rules.FuelTypeBusinessRules;
+import com.turkcell.rentacar.core.utilities.mapping.ModelMapperService;
 import com.turkcell.rentacar.dataAccess.abstracts.FuelTypeRepository;
 import com.turkcell.rentacar.entities.concretes.FuelType;
 import jakarta.transaction.Transactional;
@@ -19,33 +21,42 @@ import java.time.LocalDateTime;
 public class FuelTypeManager implements FuelTypeService {
 
     private FuelTypeRepository fuelTypeRepository;
+    private FuelTypeBusinessRules fuelTypeBusinessRules;
+    private ModelMapperService modelMapperService;
 
     @Transactional
     @Override
     public CreatedFuelTypeResponse add(CreateFuelTypeRequest createFuelTypeRequest) {
-        FuelType fuelType = new FuelType();
-        fuelType.setName(createFuelTypeRequest.getName());
+        this.fuelTypeBusinessRules.fuelTypeNameCanNotBeDuplicated(createFuelTypeRequest.getName());
+
+//        FuelType fuelType = new FuelType();
+//        fuelType.setName(createFuelTypeRequest.getName());
+        FuelType fuelType = this.modelMapperService.forRequest().map(createFuelTypeRequest,FuelType.class);
         fuelType.setCreatedDate(LocalDateTime.now());
 
         FuelType createdFuelType = fuelTypeRepository.save(fuelType);
 
-        CreatedFuelTypeResponse createdFuelTypeResponse = new CreatedFuelTypeResponse();
-        createdFuelTypeResponse.setId(createdFuelType.getId());
-        createdFuelTypeResponse.setName(createdFuelType.getName());
-        createdFuelTypeResponse.setCreatedDate(createdFuelType.getCreatedDate());
+//        CreatedFuelTypeResponse createdFuelTypeResponse = new CreatedFuelTypeResponse();
+//        createdFuelTypeResponse.setId(createdFuelType.getId());
+//        createdFuelTypeResponse.setName(createdFuelType.getName());
+//        createdFuelTypeResponse.setCreatedDate(createdFuelType.getCreatedDate());
+        CreatedFuelTypeResponse createdFuelTypeResponse = this.modelMapperService.forResponse().map(createdFuelType,CreatedFuelTypeResponse.class);
 
         return createdFuelTypeResponse;
     }
 
     @Override
     public GetFuelTypeResponse getById(int id) {
-        FuelType fuelType= fuelTypeRepository.findById(id).orElse(null);
+        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
 
-        GetFuelTypeResponse getFuelTypeResponse = new GetFuelTypeResponse();
-        getFuelTypeResponse.setId(fuelType.getId());
-        getFuelTypeResponse.setName(fuelType.getName());
-        getFuelTypeResponse.setCreatedDate(fuelType.getCreatedDate());
-        getFuelTypeResponse.setUpdatedDate(fuelType.getUpdatedDate());
+        FuelType fuelType = fuelTypeRepository.findById(id).get();
+
+//        GetFuelTypeResponse getFuelTypeResponse = new GetFuelTypeResponse();
+//        getFuelTypeResponse.setId(fuelType.getId());
+//        getFuelTypeResponse.setName(fuelType.getName());
+//        getFuelTypeResponse.setCreatedDate(fuelType.getCreatedDate());
+//        getFuelTypeResponse.setUpdatedDate(fuelType.getUpdatedDate());
+        GetFuelTypeResponse getFuelTypeResponse = this.modelMapperService.forResponse().map(fuelType,GetFuelTypeResponse.class);
 
         return getFuelTypeResponse;
     }
@@ -53,17 +64,20 @@ public class FuelTypeManager implements FuelTypeService {
     @Transactional
     @Override
     public UpdatedFuelTypeResponse update(int id, UpdateFuelTypeRequest updateFuelTypeRequest) {
+        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
+        this.fuelTypeBusinessRules.fuelTypeNameCanNotBeDuplicatedForUpdate(updateFuelTypeRequest.getName(),id);
 
-        FuelType existingFuelType = fuelTypeRepository.findById(id).orElse(null);
-        existingFuelType.setName(updateFuelTypeRequest.getName());
+        FuelType existingFuelType = fuelTypeRepository.findById(id).get();
+        this.modelMapperService.forRequest().map(updateFuelTypeRequest,existingFuelType);
         existingFuelType.setUpdatedDate(LocalDateTime.now());
 
         FuelType updatedFuelType = fuelTypeRepository.save(existingFuelType);
 
-        UpdatedFuelTypeResponse updatedFuelTypeResponse = new UpdatedFuelTypeResponse();
-        updatedFuelTypeResponse.setId(updatedFuelType.getId());
-        updatedFuelTypeResponse.setName(updatedFuelType.getName());
-        updatedFuelTypeResponse.setUpdatedDate(updatedFuelType.getUpdatedDate());
+//        UpdatedFuelTypeResponse updatedFuelTypeResponse = new UpdatedFuelTypeResponse();
+//        updatedFuelTypeResponse.setId(updatedFuelType.getId());
+//        updatedFuelTypeResponse.setName(updatedFuelType.getName());
+//        updatedFuelTypeResponse.setUpdatedDate(updatedFuelType.getUpdatedDate());
+        UpdatedFuelTypeResponse updatedFuelTypeResponse = this.modelMapperService.forResponse().map(updatedFuelType,UpdatedFuelTypeResponse.class);
 
         return updatedFuelTypeResponse;
     }
@@ -71,11 +85,13 @@ public class FuelTypeManager implements FuelTypeService {
     @Transactional
     @Override
     public void delete(int id) {
+        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
         fuelTypeRepository.deleteById(id);
     }
 
     @Override
     public FuelType getFuelTypeById(int id) {
-        return fuelTypeRepository.findById(id).orElse(null);
+        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
+        return fuelTypeRepository.findById(id).get();
     }
 }
