@@ -12,9 +12,7 @@ import java.util.Optional;
 public class ModelBusinessRules {
     private ModelRepository modelRepository;
 
-    public void modelIsExist(int modelId){
-        Optional<Model> model = modelRepository.findById(modelId);
-        if(model.isEmpty()){
-            throw new RuntimeException("Model with id " + modelId + " does not exist");        }
+    public Model modelIsExist(int modelId) {
+        return modelRepository.findById(modelId).orElseThrow(() -> new RuntimeException("Model with id " + modelId + " does not exist"));
     }
 }

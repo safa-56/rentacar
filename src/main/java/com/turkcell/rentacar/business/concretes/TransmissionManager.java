@@ -45,9 +45,7 @@ public class TransmissionManager implements TransmissionService {
 
     @Override
     public GetTransmissionResponse getById(int id) {
-        this.transmissionBusinessRules.transmissionIsExist(id);
-
-        Transmission transmission = transmissionsRepository.findById(id).get();
+        Transmission transmission = this.transmissionBusinessRules.transmissionIsExist(id);
 
 //        GetTransmissionResponse getTransmissionResponse = new GetTransmissionResponse();
 //        getTransmissionResponse.setId(transmission.getId());
@@ -62,10 +60,8 @@ public class TransmissionManager implements TransmissionService {
     @Transactional
     @Override
     public UpdatedTransmissionResponse update(int id, UpdateTransmissionRequest updateTransmissionRequest) {
-        this.transmissionBusinessRules.transmissionIsExist(id);
+        Transmission existingTransmission = this.transmissionBusinessRules.transmissionIsExist(id);
         this.transmissionBusinessRules.transmissionNameCanNotBeDuplicatedForUpdate(updateTransmissionRequest.getName(),id);
-
-        Transmission existingTransmission = transmissionsRepository.findById(id).get();
 
         this.modelMapperService.forRequest().map(updateTransmissionRequest, existingTransmission);
         existingTransmission.setUpdatedDate(LocalDateTime.now());
@@ -85,13 +81,13 @@ public class TransmissionManager implements TransmissionService {
     @Transactional
     @Override
     public void delete(int id) {
-        this.transmissionBusinessRules.transmissionIsExist(id);
-        transmissionsRepository.deleteById(id);
+        Transmission transmission = this.transmissionBusinessRules.transmissionIsExist(id);
+        transmissionsRepository.delete(transmission);
     }
 
     @Override
     public Transmission getTransmissionById(int id) {
-        this.transmissionBusinessRules.transmissionIsExist(id);
-        return transmissionsRepository.findById(id).get();
+        Transmission transmission = this.transmissionBusinessRules.transmissionIsExist(id);
+        return transmission;
     }
 }

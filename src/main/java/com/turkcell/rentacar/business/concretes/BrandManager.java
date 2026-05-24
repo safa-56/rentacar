@@ -47,9 +47,7 @@ public class BrandManager implements BrandService {
 
     @Override
     public GetBrandResponse getById(int id) {
-        this.brandBusinessRules.brandIsExist(id);
-
-        Brand brand = brandRepository.findById(id).get();
+        Brand brand = this.brandBusinessRules.brandIsExist(id);
 
 //        GetBrandResponse getBrandResponse = new GetBrandResponse();
 //        getBrandResponse.setId(brand.getId());
@@ -64,10 +62,9 @@ public class BrandManager implements BrandService {
     @Transactional
     @Override
     public UpdatedBrandResponse update(int id, UpdateBrandRequest updateBrandRequest) {
-        this.brandBusinessRules.brandIsExist(id);
+        Brand existingBrand = this.brandBusinessRules.brandIsExist(id);
         this.brandBusinessRules.brandNameCanNotBeDuplicatedForUpdate(updateBrandRequest.getName(),id);
 
-        Brand existingBrand = brandRepository.findById(id).get();
         modelMapperService.forRequest().map(updateBrandRequest,existingBrand);
         //existingBrand.setName(updateBrandRequest.getName());
         existingBrand.setUpdatedDate(LocalDateTime.now());
@@ -86,13 +83,13 @@ public class BrandManager implements BrandService {
     @Transactional
     @Override
     public void delete(int id) {
-        this.brandBusinessRules.brandIsExist(id);
-        brandRepository.deleteById(id);
+        Brand brand = this.brandBusinessRules.brandIsExist(id);
+        brandRepository.delete(brand);
     }
 
     @Override
     public Brand getBrandById(int id) {
-        brandBusinessRules.brandIsExist(id);
-        return brandRepository.findById(id).get();
+        Brand brand = brandBusinessRules.brandIsExist(id);
+        return brand;
     }
 }

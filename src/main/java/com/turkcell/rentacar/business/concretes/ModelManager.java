@@ -50,7 +50,6 @@ public class ModelManager implements ModelService {
 
         Model createdModel = modelRepository.save(model);
 
-//        CreatedModelResponse createdModelResponse = this.modelMapperService.forResponse().map(createdModel, CreatedModelResponse.class);
         CreatedModelResponse createdModelResponse = new CreatedModelResponse();
         createdModelResponse.setId(createdModel.getId());
         createdModelResponse.setCreatedDate(createdModel.getCreatedDate());
@@ -64,39 +63,18 @@ public class ModelManager implements ModelService {
 
     @Override
     public GetModelResponse getById(int id) {
-        this.modelBusinessRules.modelIsExist(id);
-
-        Model existModel = modelRepository.findById(id).get();
-// TODO: yukarıdaki iki satırda aynı sorgu iki defa veritabanına atılıyor. rule'da direk entity dön
-// public Model getModelIfExists(int id) {
-//    return modelRepository.findById(id)
-//        .orElseThrow(() -> new BusinessException("Model not found"));
-//}
+        Model existModel = this.modelBusinessRules.modelIsExist(id);
 
         GetModelResponse getModelResponse = getResponse(existModel);
 
         return getModelResponse;
     }
 
-    //Bu metod, daha sonra olası bir getAll() gibi bir metodun eklenmesi durumunda aynı alanları tekrar etmemek için yazılmıştır.
-    private @NonNull GetModelResponse getResponse(Model existModel) {
-        GetModelResponse getModelResponse = new GetModelResponse();
-        getModelResponse.setId(existModel.getId());
-        getModelResponse.setName(existModel.getName());
-        getModelResponse.setBrandName(existModel.getBrand().getName());
-        getModelResponse.setFuelTypeName(existModel.getFuelType().getName());
-        getModelResponse.setTransmissionName(existModel.getTransmission().getName());
-        getModelResponse.setCreatedDate(existModel.getCreatedDate());
-        getModelResponse.setUpdatedDate(existModel.getUpdatedDate());
-        return getModelResponse;
-    }
-
     @Transactional
     @Override
     public UpdatedModelResponse update(int id, UpdateModelRequest updateModelRequest) {
-        this.modelBusinessRules.modelIsExist(id);
 
-        Model oldModel = modelRepository.findById(id).get();
+        Model oldModel = this.modelBusinessRules.modelIsExist(id);
 
         updateBrandIfProvided(oldModel, updateModelRequest.getBrandId());
         updateFuelTypeIfProvided(oldModel, updateModelRequest.getFuelTypeId());
@@ -104,15 +82,12 @@ public class ModelManager implements ModelService {
         updateModelNameIfProvided(oldModel, updateModelRequest.getName());
         oldModel.setUpdatedDate(LocalDateTime.now());
 
-        Model updatedModel =  modelRepository.save(oldModel);
+        Model updatedModel = modelRepository.save(oldModel);
 
-        UpdatedModelResponse updatedModelResponse = new UpdatedModelResponse();
-
-        updatedModelResponse.setName(updatedModel.getName());
+        UpdatedModelResponse updatedModelResponse = this.modelMapperService.forResponse().map(updatedModel,UpdatedModelResponse.class);
         updatedModelResponse.setBrandName(updatedModel.getBrand().getName());
         updatedModelResponse.setFuelTypeName(updatedModel.getFuelType().getName());
         updatedModelResponse.setTransmissionName(updatedModel.getTransmission().getName());
-        updatedModelResponse.setUpdatedDate(updatedModel.getUpdatedDate());
 
         return updatedModelResponse;
     }
@@ -120,8 +95,8 @@ public class ModelManager implements ModelService {
     @Transactional
     @Override
     public void delete(int id) {
-        this.modelBusinessRules.modelIsExist(id);
-        modelRepository.deleteById(id);
+        Model model = this.modelBusinessRules.modelIsExist(id);
+        modelRepository.delete(model);
     }
 
     // değerlerin güncellenip güncellenmediğini kontrol ederler
@@ -150,5 +125,15 @@ public class ModelManager implements ModelService {
         if (modelName != null) {
             model.setName(modelName);
         }
+    }
+
+    //Bu metod, daha sonra olası bir getAll() gibi bir metodun eklenmesi durumunda aynı alanları tekrar etmemek için yazılmıştır.
+    private @NonNull GetModelResponse getResponse(Model existModel) {
+        //GetModelResponse getModelResponse = new GetModelResponse();
+        GetModelResponse getModelResponse = this.modelMapperService.forResponse().map(existModel,GetModelResponse.class);
+        getModelResponse.setBrandName(existModel.getBrand().getName());
+        getModelResponse.setFuelTypeName(existModel.getFuelType().getName());
+        getModelResponse.setTransmissionName(existModel.getTransmission().getName());
+        return getModelResponse;
     }
 }

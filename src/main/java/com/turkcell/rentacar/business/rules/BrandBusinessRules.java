@@ -19,11 +19,8 @@ public class BrandBusinessRules {
         }
     }
 
-    public void brandIsExist(int brandId){
-        Optional<Brand> brand = this.brandRepository.findById(brandId);
-        if (brand.isEmpty()) {
-            throw new RuntimeException("Brand with id " + brandId + " does not exist");
-        }
+    public Brand brandIsExist(int brandId){
+        return this.brandRepository.findById(brandId).orElseThrow(() -> new RuntimeException("Brand with id " + brandId + " does not exist"));
     }
 
     public void brandNameCanNotBeDuplicatedForUpdate(String brandName, int brandId) {

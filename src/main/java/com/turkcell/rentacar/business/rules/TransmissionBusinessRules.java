@@ -19,11 +19,8 @@ public class TransmissionBusinessRules {
         }
     }
 
-    public void transmissionIsExist(int transmissionId) {
-        Optional<Transmission> transmission = transmissionsRepository.findById(transmissionId);
-        if (transmission.isEmpty()) {
-            throw new RuntimeException("Transmission with id " + transmissionId + " does not exist");
-        }
+    public Transmission transmissionIsExist(int transmissionId) {
+        return this.transmissionsRepository.findById(transmissionId).orElseThrow(() -> new RuntimeException("Transmission with id " + transmissionId + " does not exist"));
     }
 
     public void transmissionNameCanNotBeDuplicatedForUpdate(String transmissionName,int transmissionId) {

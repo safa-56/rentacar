@@ -47,9 +47,7 @@ public class FuelTypeManager implements FuelTypeService {
 
     @Override
     public GetFuelTypeResponse getById(int id) {
-        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
-
-        FuelType fuelType = fuelTypeRepository.findById(id).get();
+        FuelType fuelType = this.fuelTypeBusinessRules.fuelTypeIsExist(id);
 
 //        GetFuelTypeResponse getFuelTypeResponse = new GetFuelTypeResponse();
 //        getFuelTypeResponse.setId(fuelType.getId());
@@ -64,10 +62,9 @@ public class FuelTypeManager implements FuelTypeService {
     @Transactional
     @Override
     public UpdatedFuelTypeResponse update(int id, UpdateFuelTypeRequest updateFuelTypeRequest) {
-        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
+        FuelType existingFuelType = this.fuelTypeBusinessRules.fuelTypeIsExist(id);
         this.fuelTypeBusinessRules.fuelTypeNameCanNotBeDuplicatedForUpdate(updateFuelTypeRequest.getName(),id);
 
-        FuelType existingFuelType = fuelTypeRepository.findById(id).get();
         this.modelMapperService.forRequest().map(updateFuelTypeRequest,existingFuelType);
         existingFuelType.setUpdatedDate(LocalDateTime.now());
 
@@ -85,13 +82,13 @@ public class FuelTypeManager implements FuelTypeService {
     @Transactional
     @Override
     public void delete(int id) {
-        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
-        fuelTypeRepository.deleteById(id);
+        FuelType fuelType = this.fuelTypeBusinessRules.fuelTypeIsExist(id);
+        fuelTypeRepository.delete(fuelType);
     }
 
     @Override
     public FuelType getFuelTypeById(int id) {
-        this.fuelTypeBusinessRules.fuelTypeIsExist(id);
-        return fuelTypeRepository.findById(id).get();
+        FuelType fuelType = this.fuelTypeBusinessRules.fuelTypeIsExist(id);
+        return fuelType;
     }
 }

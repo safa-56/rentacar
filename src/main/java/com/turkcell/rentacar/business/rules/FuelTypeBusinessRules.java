@@ -19,11 +19,8 @@ public class FuelTypeBusinessRules {
         }
     }
 
-    public void fuelTypeIsExist(int fuelTypeId) {
-        Optional<FuelType> fuelType = fuelTypeRepository.findById(fuelTypeId);
-        if (fuelType.isEmpty()){
-            throw new RuntimeException("FuelType with id " + fuelTypeId + " does not exist");
-        }
+    public FuelType fuelTypeIsExist(int fuelTypeId) {
+        return this.fuelTypeRepository.findById(fuelTypeId).orElseThrow(() -> new RuntimeException("FuelType with id " + fuelTypeId + " does not exist"));
     }
 
     public void fuelTypeNameCanNotBeDuplicatedForUpdate(String fuelTypeName,int fuelTypeId){
