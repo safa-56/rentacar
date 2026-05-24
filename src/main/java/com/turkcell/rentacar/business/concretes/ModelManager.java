@@ -50,10 +50,7 @@ public class ModelManager implements ModelService {
 
         Model createdModel = modelRepository.save(model);
 
-        CreatedModelResponse createdModelResponse = new CreatedModelResponse();
-        createdModelResponse.setId(createdModel.getId());
-        createdModelResponse.setCreatedDate(createdModel.getCreatedDate());
-        createdModelResponse.setName(createdModel.getName());
+        CreatedModelResponse createdModelResponse = this.modelMapperService.forResponse().map(createdModel, CreatedModelResponse.class);
         createdModelResponse.setBrandName(brand.getName());
         createdModelResponse.setFuelTypeName(fuelType.getName());
         createdModelResponse.setTransmissionName(transmission.getName());
