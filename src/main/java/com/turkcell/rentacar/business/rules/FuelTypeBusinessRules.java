@@ -1,5 +1,6 @@
 package com.turkcell.rentacar.business.rules;
 
+import com.turkcell.rentacar.core.utilities.exceptions.types.BusinessException;
 import com.turkcell.rentacar.dataAccess.abstracts.FuelTypeRepository;
 import com.turkcell.rentacar.entities.concretes.FuelType;
 import lombok.AllArgsConstructor;
@@ -15,17 +16,17 @@ public class FuelTypeBusinessRules {
     public void fuelTypeNameCanNotBeDuplicated(String fuelTypeName){
         Optional<FuelType> fuelType = fuelTypeRepository.findByNameIgnoreCase(fuelTypeName);
         if (fuelType.isPresent()){
-            throw new RuntimeException("FuelType with name " + fuelTypeName + " already exists");
+            throw new BusinessException("FuelType with name " + fuelTypeName + " already exists");
         }
     }
 
     public FuelType fuelTypeIsExist(int fuelTypeId) {
-        return this.fuelTypeRepository.findById(fuelTypeId).orElseThrow(() -> new RuntimeException("FuelType with id " + fuelTypeId + " does not exist"));
+        return this.fuelTypeRepository.findById(fuelTypeId).orElseThrow(() -> new BusinessException("FuelType with id " + fuelTypeId + " does not exist"));
     }
 
     public void fuelTypeNameCanNotBeDuplicatedForUpdate(String fuelTypeName,int fuelTypeId){
         if (fuelTypeRepository.existsByNameIgnoreCaseAndIdNot(fuelTypeName, fuelTypeId)){
-            throw new RuntimeException("FuelType with name " + fuelTypeName + " already exists");
+            throw new BusinessException("FuelType with name " + fuelTypeName + " already exists");
         }
     }
 }

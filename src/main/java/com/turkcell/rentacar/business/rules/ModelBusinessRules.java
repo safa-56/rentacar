@@ -1,5 +1,6 @@
 package com.turkcell.rentacar.business.rules;
 
+import com.turkcell.rentacar.core.utilities.exceptions.types.BusinessException;
 import com.turkcell.rentacar.dataAccess.abstracts.ModelRepository;
 import com.turkcell.rentacar.entities.concretes.Model;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,6 @@ public class ModelBusinessRules {
     private ModelRepository modelRepository;
 
     public Model modelIsExist(int modelId) {
-        return modelRepository.findById(modelId).orElseThrow(() -> new RuntimeException("Model with id " + modelId + " does not exist"));
+        return modelRepository.findById(modelId).orElseThrow(() -> new BusinessException("Model with id " + modelId + " does not exist"));
     }
 }
