@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,4 +30,7 @@ public class Model extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "brandId")
     private Brand brand;
+
+    @OneToMany(mappedBy = "model" , cascade = CascadeType.ALL)
+    private List<Car> carList;
 }

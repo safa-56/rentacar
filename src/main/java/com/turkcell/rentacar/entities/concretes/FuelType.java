@@ -21,7 +21,6 @@ public class FuelType extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "fuelType" , cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Model> modelList;
 
 }

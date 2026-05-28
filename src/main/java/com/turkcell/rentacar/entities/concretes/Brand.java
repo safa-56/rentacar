@@ -22,6 +22,5 @@ public class Brand extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "brand" ,  cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Model> modelList;
 }

@@ -21,6 +21,5 @@ public class Transmission extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "transmission" , cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Model> modelList;
 }
