@@ -15,7 +15,7 @@ import lombok.Setter;
 @Table(name = "rentals")
 public class Rental extends BaseEntity {
     @Column(name = "isRental")
-    private boolean isRental;
+    private boolean isRental =  false;
 
     @ManyToOne
     @JoinColumn(name = "carId")

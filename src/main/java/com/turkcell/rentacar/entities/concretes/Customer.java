@@ -25,6 +25,9 @@ public class Customer extends BaseEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "findexScor")
+    private int findexScore;
+
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
     private List<Rental> rental;
 }

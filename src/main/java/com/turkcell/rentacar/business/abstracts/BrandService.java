@@ -10,7 +10,7 @@ import com.turkcell.rentacar.entities.concretes.Brand;
 public interface BrandService {
     CreatedBrandResponse add(CreateBrandRequest createBrandRequest);
     GetBrandResponse getById(int id);
-    void delete(int id);
     UpdatedBrandResponse update(int id, UpdateBrandRequest updateBrandRequest);
+    void delete(int id);
     Brand getBrandById(int id);
 }

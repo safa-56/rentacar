@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name = "maintenances")
 public class Maintenance extends BaseEntity {
     @Column(name = "isMaintenance")
-    private boolean isMaintenance;
+    private boolean isMaintenance = false;
 
     @ManyToOne
     @JoinColumn(name = "carId")
