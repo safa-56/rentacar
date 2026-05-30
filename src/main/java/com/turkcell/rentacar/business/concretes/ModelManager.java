@@ -34,6 +34,9 @@ public class ModelManager implements ModelService {
     private ModelMapperService modelMapperService;
     private ModelBusinessRules modelBusinessRules;
 
+  //TODO: kontrol için yazılan fonskionlar silinecek
+  //TODO: findeks skor eklenip kontrolü yapılacak
+
     @Transactional
     @Override
     public CreatedModelResponse add(CreateModelRequest createModelRequest) {
@@ -94,6 +97,12 @@ public class ModelManager implements ModelService {
     public void delete(int id) {
         Model model = this.modelBusinessRules.modelIsExist(id);
         modelRepository.delete(model);
+    }
+
+    @Override
+    public Model getModel(int id) {
+        Model model = modelBusinessRules.modelIsExist(id);
+        return model;
     }
 
     // değerlerin güncellenip güncellenmediğini kontrol ederler

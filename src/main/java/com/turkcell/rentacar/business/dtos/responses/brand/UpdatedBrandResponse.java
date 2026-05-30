@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatedBrandResponse {
-    private int id;
+    private Integer id;
     private String name;
     private LocalDateTime updatedDate;
 }

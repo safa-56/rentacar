@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatedFuelTypeResponse {
-    private int id;
+    private Integer id;
     private String name;
     private LocalDateTime createdDate;
 }

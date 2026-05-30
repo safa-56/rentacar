@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CreatedCorporateCustomerResponse {
-    private int id;
+    private Integer id;
     private String companyName;
     private String taxNumber;
     private String address;

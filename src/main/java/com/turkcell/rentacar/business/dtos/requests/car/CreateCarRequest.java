@@ -1,5 +1,4 @@
-package com.turkcell.rentacar.business.dtos.requests.model;
-import java.time.LocalDateTime;
+package com.turkcell.rentacar.business.dtos.requests.car;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,24 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateModelRequest {
+@Getter
+@Setter
+public class CreateCarRequest {
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1,max = 15)
     private String name;
 
     @Positive
     @NotNull
-    private Integer brandId;
-
-    @Positive
-    @NotNull
-    private Integer fuelTypeId;
-
-    @Positive
-    @NotNull
-    private Integer transmissionId;
+    private Integer modelId;
 }

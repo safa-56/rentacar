@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetModelResponse {
-    private int id;
+    private Integer id;
     private String name;
     private String brandName;
     private String fuelTypeName;

@@ -1,7 +1,7 @@
 package com.turkcell.rentacar.business.dtos.requests.customer;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,17 +13,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateCorporateCustomerRequest {
-    @NotEmpty
+    @NotNull
     private String companyName;
-    @NotEmpty
+    @NotNull
     @Size(min = 10, max = 10)
     private String taxNumber;
-    @NotEmpty
+    @NotNull
     private String address;
-    @NotEmpty
+    @NotNull
     @Size(min = 11, max = 11)
     private String phoneNumber;
-    @NotEmpty
+    @NotNull
     @Email
     private String email;
 }

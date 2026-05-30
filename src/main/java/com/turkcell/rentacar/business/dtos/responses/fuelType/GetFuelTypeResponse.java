@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetFuelTypeResponse {
-    private int id;
+    private Integer id;
     private String name;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;

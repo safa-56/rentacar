@@ -6,7 +6,6 @@ import com.turkcell.rentacar.business.dtos.responses.customer.GetIndividualCusto
 import com.turkcell.rentacar.business.dtos.responses.customer.UpdatedIndividualCustomerResponse;
 
 public interface IndividualCustomerService {
-    //TODO: buranın managerı ve controllerını yaz.corporate customer, maintenance, rental alanları için de dto ve servisleri yaz
     CreatedIndividualCustomerResponse add(CreateIndividualCustomerRequest createIndividualCustomerRequest);
     GetIndividualCustomerResponse getById(int id);
     UpdatedIndividualCustomerResponse update(int id,UpdatedIndividualCustomerResponse updatedIndividualCustomerRequest);

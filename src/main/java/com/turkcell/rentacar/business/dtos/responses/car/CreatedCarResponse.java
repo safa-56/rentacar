@@ -1,4 +1,4 @@
-package com.turkcell.rentacar.business.dtos.responses.fuelType;
+package com.turkcell.rentacar.business.dtos.responses.car;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatedFuelTypeResponse {
-    private Integer id;
+@Getter
+@Setter
+public class CreatedCarResponse {
+    private int id;
     private String name;
-    private LocalDateTime updatedDate;
+    private String modelName;
+    private LocalDateTime createdDate;
 }

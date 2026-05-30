@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatedModelResponse {
-    private int id;
+    private Integer id;
     private String name;
     private String brandName;
     private String fuelTypeName;

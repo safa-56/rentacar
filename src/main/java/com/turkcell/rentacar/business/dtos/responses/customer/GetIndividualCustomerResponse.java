@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class GetIndividualCustomerResponse {
-    private int id;
-    private int findexScore;
+    private Integer id;
+    private Integer findexScore;
     private String firstName;
     private String lastName;
     private String identityNumber;

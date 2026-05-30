@@ -13,6 +13,9 @@ import java.util.List;
 @Entity
 @Table(name = "cars")
 public class Car extends BaseEntity {
+    @Column(name = "name")
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "modelId")
     private Model model;
