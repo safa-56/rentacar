@@ -1,9 +1,6 @@
 package com.turkcell.rentacar.business.concretes;
 
-import com.turkcell.rentacar.business.abstracts.BrandService;
-import com.turkcell.rentacar.business.abstracts.FuelTypeService;
-import com.turkcell.rentacar.business.abstracts.ModelService;
-import com.turkcell.rentacar.business.abstracts.TransmissionService;
+import com.turkcell.rentacar.business.abstracts.*;
 import com.turkcell.rentacar.business.dtos.requests.model.CreateModelRequest;
 import com.turkcell.rentacar.business.dtos.requests.model.UpdateModelRequest;
 import com.turkcell.rentacar.business.dtos.responses.model.CreatedModelResponse;
@@ -33,9 +30,7 @@ public class ModelManager implements ModelService {
     private FuelTypeService fuelTypeService;
     private ModelMapperService modelMapperService;
     private ModelBusinessRules modelBusinessRules;
-
-  //TODO: kontrol için yazılan fonskionlar silinecek
-  //TODO: findeks skor eklenip kontrolü yapılacak
+    private FindexService findexService;
 
     @Transactional
     @Override
@@ -44,12 +39,15 @@ public class ModelManager implements ModelService {
         Brand brand = brandService.getBrandById(createModelRequest.getBrandId());
         FuelType fuelType = fuelTypeService.getFuelTypeById(createModelRequest.getFuelTypeId());
         Transmission transmission = transmissionService.getTransmissionById(createModelRequest.getTransmissionId());
+        int score = findexService.getModelScore();
 
         Model model = this.modelMapperService.forRequest().map(createModelRequest,Model.class);
         model.setBrand(brand);
         model.setFuelType(fuelType);
         model.setTransmission(transmission);
         model.setCreatedDate(LocalDateTime.now());
+        model.setFindexScore(score);
+
 
         Model createdModel = modelRepository.save(model);
 
@@ -76,11 +74,18 @@ public class ModelManager implements ModelService {
 
         Model oldModel = this.modelBusinessRules.modelIsExist(id);
 
-        updateBrandIfProvided(oldModel, updateModelRequest.getBrandId());
-        updateFuelTypeIfProvided(oldModel, updateModelRequest.getFuelTypeId());
-        updateTransmissionIfProvided(oldModel, updateModelRequest.getTransmissionId());
-        updateModelNameIfProvided(oldModel, updateModelRequest.getName());
+        Brand brand = brandService.getBrandById(updateModelRequest.getBrandId());
+        FuelType fuelType = fuelTypeService.getFuelTypeById(updateModelRequest.getFuelTypeId());
+        Transmission transmission = transmissionService.getTransmissionById(updateModelRequest.getTransmissionId());
+        int score = findexService.getModelScore();
+
+        modelMapperService.forRequest().map(updateModelRequest, oldModel);
+
+        oldModel.setBrand(brand);
+        oldModel.setFuelType(fuelType);
+        oldModel.setTransmission(transmission);
         oldModel.setUpdatedDate(LocalDateTime.now());
+        oldModel.setFindexScore(score);
 
         Model updatedModel = modelRepository.save(oldModel);
 
@@ -103,34 +108,6 @@ public class ModelManager implements ModelService {
     public Model getModel(int id) {
         Model model = modelBusinessRules.modelIsExist(id);
         return model;
-    }
-
-    // değerlerin güncellenip güncellenmediğini kontrol ederler
-    private void updateBrandIfProvided(Model model, Integer brandId) {
-        if (brandId != null) {
-            Brand brand = brandService.getBrandById(brandId);
-            model.setBrand(brand);
-        }
-    }
-
-    private void updateTransmissionIfProvided(Model model, Integer transmissionId) {
-        if (transmissionId != null) {
-            Transmission transmission = transmissionService.getTransmissionById(transmissionId);
-            model.setTransmission(transmission);
-        }
-    }
-
-    private void updateFuelTypeIfProvided(Model model, Integer fuelTypeId) {
-        if (fuelTypeId != null) {
-            FuelType fuelType = fuelTypeService.getFuelTypeById(fuelTypeId);
-            model.setFuelType(fuelType);
-        }
-    }
-
-    private void updateModelNameIfProvided(Model model, String modelName) {
-        if (modelName != null) {
-            model.setName(modelName);
-        }
     }
 
     //Bu metod, daha sonra olası bir getAll() gibi bir metodun eklenmesi durumunda aynı alanları tekrar etmemek için yazılmıştır.

@@ -19,6 +19,9 @@ public class Model extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "findexScore")
+    private int findexScore;
+
     @ManyToOne
     @JoinColumn(name = "transmissionId")
     private Transmission transmission;

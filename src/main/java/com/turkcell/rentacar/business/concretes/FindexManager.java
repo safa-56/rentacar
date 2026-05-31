@@ -5,6 +5,7 @@ import com.turkcell.rentacar.business.dtos.requests.findexScore.CorporateCustome
 import com.turkcell.rentacar.business.dtos.requests.findexScore.IndividualCustomerFindexScoreRequest;
 import com.turkcell.rentacar.business.dtos.responses.findexScore.CorporateCustomerFindexScoreResponse;
 import com.turkcell.rentacar.business.dtos.responses.findexScore.IndividualCustomerFindexScoreResponse;
+import com.turkcell.rentacar.business.dtos.responses.findexScore.ModelFindexScoreResponse;
 import com.turkcell.rentacar.business.rules.FindexBusinessRules;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,21 @@ public class FindexManager implements FindexService {
                 request,
                 CorporateCustomerFindexScoreResponse.class
         );
+
+        findexBusinessRules.responseIsExists(response);
+
+        int score = response.getScore();
+
+        findexBusinessRules.scoreIsExist(score);
+
+        return score;
+    }
+
+    @Override
+    public int getModelScore() {
+        String url = BASE_FINDEX_URL + "/model";
+
+        ModelFindexScoreResponse response = restTemplate.postForObject(url,null, ModelFindexScoreResponse.class);
 
         findexBusinessRules.responseIsExists(response);
 

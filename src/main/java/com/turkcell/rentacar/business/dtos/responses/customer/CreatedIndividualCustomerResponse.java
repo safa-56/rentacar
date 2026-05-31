@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class CreatedIndividualCustomerResponse {
     private Integer id;
+    private Integer findexScore;
     private String firstName;
     private String lastName;
     private String identityNumber;

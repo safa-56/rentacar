@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetModelResponse {
     private Integer id;
+    private int findexScore;
     private String name;
     private String brandName;
     private String fuelTypeName;
